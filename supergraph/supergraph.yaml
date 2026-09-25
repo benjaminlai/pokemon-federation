@@ -1,0 +1,10 @@
+federation_version: =2.10.0
+subgraphs:
+  pokemon:
+    routing_url: http://localhost:4001/graphql
+    schema:
+      file: ./subgraphs/pokemon/src/schema.graphql
+  cards:
+    routing_url: http://localhost:4002/graphql
+    schema:
+      file: ./subgraphs/cards/src/schema.graphql

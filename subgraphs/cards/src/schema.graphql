@@ -1,0 +1,18 @@
+type Query {
+  cardById(id: ID!): PokemonCard
+  cardsByName(name: String!, page: Int = 1, pageSize: Int = 10): [PokemonCard!]!
+}
+
+type PokemonCard {
+  id: ID!
+  name: String!
+  setName: String
+  rarity: String
+  imageUrl: String
+}
+
+extend type Pokemon @key(fields: "id") {
+  id: ID! @external
+  name: String! @external
+  cards(limit: Int = 5): [PokemonCard!]! @requires(fields: "name")
+}
