@@ -1,0 +1,26 @@
+{
+  "name": "pokemon-federation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test",
+    "start:pokemon": "node subgraphs/pokemon/src/index.js",
+    "start:cards": "node subgraphs/cards/src/index.js",
+    "start:router": "apollo-router --config router/router.yaml --supergraph supergraph/supergraph.graphql",
+    "compose:supergraph": "rover supergraph compose --config supergraph/supergraph.yaml > supergraph/supergraph.graphql"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/benjaminlai/pokemon-federation"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^5.5.1",
+    "@apollo/subgraph": "^2.15.1",
+    "dotenv": "^18.0.3",
+    "graphql": "^16.14.2"
+  }
+}
