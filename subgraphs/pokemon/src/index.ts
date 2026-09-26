@@ -1,10 +1,10 @@
-const { ApolloServer } = require('@apollo/server');
-const { startStandaloneServer } = require('@apollo/server/standalone');
-const { buildSubgraphSchema } = require('@apollo/subgraph');
-const { parse } = require('graphql');
-const { typeDefs, resolvers } = require('./subgraph');
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+import { buildSubgraphSchema } from '@apollo/subgraph';
+import { parse } from 'graphql';
+import { resolvers, typeDefs } from './subgraph.js';
 
-async function start() {
+async function start(): Promise<void> {
   const server = new ApolloServer({
     schema: buildSubgraphSchema([{
       typeDefs: parse(typeDefs),

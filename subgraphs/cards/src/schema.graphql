@@ -1,6 +1,12 @@
 type Query {
-  cardById(id: ID!): PokemonCard
   cardsByName(name: String!, page: Int = 1, pageSize: Int = 10): [PokemonCard!]!
+}
+
+type Price {
+  low: Float
+  mid: Float
+  high: Float
+  market: Float
 }
 
 type PokemonCard {
@@ -9,6 +15,7 @@ type PokemonCard {
   setName: String
   rarity: String
   imageUrl: String
+  price: Price
 }
 
 extend type Pokemon @key(fields: "id") {

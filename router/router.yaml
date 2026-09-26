@@ -1,5 +1,5 @@
 supergraph:
-  path: ./supergraph/supergraph.graphql
+  introspection: true
 
 homepage:
   enabled: false

@@ -2,13 +2,17 @@
   "name": "pokemon-federation",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "node --test",
-    "start:pokemon": "node subgraphs/pokemon/src/index.js",
-    "start:cards": "node subgraphs/cards/src/index.js",
-    "start:router": "apollo-router --config router/router.yaml --supergraph supergraph/supergraph.graphql",
-    "compose:supergraph": "rover supergraph compose --config supergraph/supergraph.yaml > supergraph/supergraph.graphql"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "test": "tsx --test tests/*.test.ts",
+    "start:pokemon": "dotenvx run -- tsx subgraphs/pokemon/src/index.ts",
+    "start:cards": "dotenvx run -- tsx subgraphs/cards/src/index.ts",
+    "start:router": "./router/router --config router/router.yaml --supergraph supergraph/supergraph.graphql",
+    "start:all": "node scripts/preflight.mjs && (test -f supergraph/supergraph.graphql || npm run compose:supergraph) && concurrently --kill-others --names pokemon,cards,router --prefix-colors blue,green,magenta \"npm:start:pokemon\" \"npm:start:cards\" \"npm:start:router\"",
+    "compose:supergraph": "rover supergraph compose --config supergraph/supergraph.yaml --elv2-license accept > supergraph/supergraph.graphql"
   },
   "repository": {
     "type": "git",
@@ -20,7 +24,17 @@
   "dependencies": {
     "@apollo/server": "^5.5.1",
     "@apollo/subgraph": "^2.15.1",
+    "@dotenvx/dotenvx": "^2.30.0",
     "dotenv": "^18.0.3",
     "graphql": "^16.14.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^7.4.3",
+    "@graphql-codegen/typescript": "^6.1.0",
+    "@graphql-codegen/typescript-resolvers": "^6.1.0",
+    "@types/node": "^24.0.0",
+    "concurrently": "^10.0.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

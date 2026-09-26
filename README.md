@@ -3,7 +3,7 @@
 A minimal Apollo Federation learning setup with:
 
 - **Pokemon subgraph** (PokeAPI-backed)
-- **Cards subgraph** (APITCG-backed with `x-api-key` auth)
+- **Cards subgraph** (Pokewallet-backed with `X-API-Key` auth)
 - **Apollo Router** configured from a composed supergraph SDL
 
 ## Prerequisites
@@ -19,11 +19,25 @@ cp .env.example .env
 npm install
 ```
 
-Set your API key from <https://apitcg.com/platform/api-key>:
+Set your API key from <https://api.pokewallet.io> in `.env`:
 
 ```bash
-export APITCG_API_KEY="<your-key>"
+POKEWALLET_API_KEY="<your-key>"
 ```
+
+Environment variables are loaded from `.env` automatically by [dotenvx](https://dotenvx.com) when starting the subgraphs (`npm run start:pokemon`, `npm run start:cards`, `npm run start:all`). Already-exported shell variables take precedence.
+
+> Note: `imageUrl` points at `https://api.pokewallet.io/images/<id>`, which requires the `X-API-Key` header to fetch.
+
+## Codegen
+
+Resolver types are generated from the subgraph schemas with GraphQL Code Generator:
+
+```bash
+npm run codegen
+```
+
+This writes `subgraphs/{pokemon,cards}/src/__generated__/types.ts`. Run it whenever you change a `schema.graphql`. The generated files are committed so `npm run typecheck` and `npm test` work out of the box.
 
 ## Run subgraphs
 
@@ -31,6 +45,16 @@ export APITCG_API_KEY="<your-key>"
 npm run start:pokemon
 npm run start:cards
 ```
+
+## Run everything
+
+`npm run start:all` composes the supergraph if needed and starts both subgraphs plus the Apollo Router together:
+
+```bash
+npm run start:all
+```
+
+The GraphQL endpoint is served at <http://localhost:4000/>. Requires the `rover` and `apollo-router` CLIs on your `PATH` (or `router/router` in this repo) per the prerequisites above.
 
 ## Compose supergraph
 
